@@ -11,7 +11,7 @@ function placeXOrO(squareNumber) {
       select.style.backgroundImage = "url('Oimg.png')";
     }
 
-    // SquaareNumber and activePlayer are concatenated together and addded to an array
+    // SquareNumber and activePlayer are concatenated together and addded to an array
     selectedSquares.push(squareNumber + activePlayer);
 
     // Function for checking win conditions
@@ -159,7 +159,7 @@ function audio(audioURL) {
       }
     }
 
-    // Clears teh canvas
+    // Clears the canvas
     function clear() {
       const animationLoop = requestAnimationFrame(clear);
       c.clearRect(0, 0, 608, 608);
