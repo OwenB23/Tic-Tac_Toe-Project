@@ -1,6 +1,7 @@
 "use strict";
 let activePlayer = "X";
 
+let selectedSquares = [];
 // Function for placing an X or an O
 function placeXOrO(squareNumber) {
   if (!selectedSquares.some((element) => element.includes(squareNumber))) {
@@ -25,7 +26,7 @@ function placeXOrO(squareNumber) {
     }
 
     // Function that plays placement sound
-    new Audio("media sound.mp3");
+    audio("PLACE.mp3");
     if (activePlayer === "O") {
       disableClick();
       setTimeout(function () {
@@ -87,7 +88,7 @@ function checkWinConditions() {
   } else if (arrayIncludes("0O", "4O", "8O")) {
     drawWinLine(100, 100, 520, 520);
   } else if (selectedSquares.length >= 9) {
-    Audio("./media/tie.mp3");
+    audio("TIEGAME.mp3");
     setTimeout(function () {
       resetGame();
     }, 500);
@@ -98,7 +99,9 @@ function checkWinConditions() {
     const a = selectedSquares.includes(squareA);
     const b = selectedSquares.includes(squareB);
     const c = selectedSquares.includes(squareC);
-    if (a === true && b === true && c === true);
+    if (a === true && b === true && c === true) {
+      return true;
+    }
   }
 }
 
@@ -114,71 +117,71 @@ function disableClick() {
 function audio(audioURL) {
   let audio = new Audio(audioURL);
   audio.play();
+}
+// draw win line
+function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
+  const canvas = document.getElementById("win-lines");
+  const c = canvas.getContext("2d");
+  let x1 = coordX1,
+    y1 = coordY1,
+    x2 = coordX2,
+    y2 = coordY2,
+    x = x1,
+    y = y1;
 
-  // draw win line
-  function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
-    const canvas = document.getElementById("win-lines");
-    const c = canvas.getContext("2d");
-    let x1 = coordX1,
-      y1 = coordY1,
-      x2 = coordX2,
-      y2 = coordY2;
-    (x = x1), (y = y1);
-
-    // function that interacts with the canvas
-    function animateLineDrawing() {
-      const animationLoop = requestAnimationFrame(animateLineDrawing);
-      c.clearRect(0, 0, 608, 608);
-      c.beginPath();
-      c.moveTo(x1, y1);
-      c.lineTo(x, y);
-      c.linewidth = 10;
-      c.strokeStyle = "rgba(70,255,33, .8)";
-      c.stroke();
-      if (x1 <= x2 && y1 <= y2) {
-        if (x < x2) {
-          x += 10;
-        }
-        if (y < y2) {
-          x += 10;
-        }
-        if (x >= x2 && y >= y2) {
-          cancelAnimationFrame(animationLoop);
-        }
+  // function that interacts with the canvas
+  function animateLineDrawing() {
+    const animationLoop = requestAnimationFrame(animateLineDrawing);
+    c.clearRect(0, 0, 608, 608);
+    c.beginPath();
+    c.moveTo(x1, y1);
+    c.lineTo(x, y);
+    c.lineidth = 10;
+    c.strokeStyle = "rgba(70,255,33, .8)";
+    c.stroke();
+    if (x1 <= x2 && y1 <= y2) {
+      if (x < x2) {
+        x += 10;
       }
-      if (x1 <= x2 && y1 >= y2) {
-        if (x < x2) {
-          x += 10;
-        }
-        if (y > y2) {
-          y -= 10;
-        }
-        if (x >= x2 && y <= y2) {
-          cancelAnimationFrame(animationLoop);
-        }
+      if (y < y2) {
+        y += 10;
+      }
+      if (x >= x2 && y >= y2) {
+        cancelAnimationFrame(animationLoop);
       }
     }
-
-    // Clears the canvas
-    function clear() {
-      const animationLoop = requestAnimationFrame(clear);
-      c.clearRect(0, 0, 608, 608);
-      cancelAnimationFrame(animateLoop);
+    if (x1 <= x2 && y1 >= y2) {
+      if (x < x2) {
+        x += 10;
+      }
+      if (y > y2) {
+        y -= 10;
+      }
+      if (x >= x2 && y <= y2) {
+        cancelAnimationFrame(animationLoop);
+      }
     }
-    disableClick();
-    audio("WINGAME.mp3");
-    animateLineDrawing();
-    setTimeout(function () {
-      clear();
-      resetGame();
-    }, 1000);
   }
+
+  // Clears the canvas
+  function clear() {
+    const animationLoop = requestAnimationFrame(clear);
+    c.clearRect(0, 0, 608, 608);
+    cancelAnimationFrame(animateLoop);
+  }
+  disableClick();
+  audio("WINGAME.mp3");
+  animateLineDrawing();
+  setTimeout(function () {
+    clear();
+    resetGame();
+  }, 1000);
 }
 
 //This function resets the game in the event of a tie or a win
 function resetGame() {
   for (let i = 0; i < 9; i++) {
-    let square = document.getElementById(string(i));
+    let square = document.getElementById(String(i));
     square.style.backgroundImage = "";
   }
   selectedSquares = [];
