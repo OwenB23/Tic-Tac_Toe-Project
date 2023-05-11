@@ -136,7 +136,7 @@ function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
     c.beginPath();
     c.moveTo(x1, y1);
     c.lineTo(x, y);
-    c.lineidth = 10;
+    c.linewidth = 10;
     c.strokeStyle = "rgba(70,255,33, .8)";
     c.stroke();
     if (x1 <= x2 && y1 <= y2) {
@@ -181,7 +181,7 @@ function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
 //This function resets the game in the event of a tie or a win
 function resetGame() {
   for (let i = 0; i < 9; i++) {
-    let square = document.getElementById(String(i));
+    let square = document.getElementById(Solotring(i));
     square.style.backgroundImage = "";
   }
   selectedSquares = [];
